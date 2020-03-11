@@ -5,15 +5,15 @@ metadata:
   labels:
     app: {{ template "postgresql.name" . }}
     chart: {{ template "postgresql.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
 spec:
   type: ClusterIP
   clusterIP: None
   ports:
-  - name: postgresql
-    port: 5432
-    targetPort: postgresql
+    - name: tcp-postgresql
+      port: {{ template "postgresql.port" . }}
+      targetPort: tcp-postgresql
   selector:
     app: {{ template "postgresql.name" . }}
-    release: "{{ .Release.Name }}"
+    release: {{ .Release.Name | quote }}
